@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function Text() {
   const [text, setText] = useState("");
   const [savedText, setSavedText] = useState(() => {
-    return localStorage.getItem("memo");
+    return JSON.parse(localStorage.getItem("memo"));
   });
 
   return (
@@ -17,13 +17,18 @@ export default function Text() {
 
       <button
         onClick={() => {
-          localStorage.setItem("memo", text);
-          setSavedText(text);
+          const newText = [...savedText, text];
+          localStorage.setItem("memo", JSON.stringify(newText));
+          setSavedText(newText);
         }}
       >
         保存
       </button>
-      <p>{savedText}</p>
+      <ul>
+        {savedText.map((text, i) => (
+          <li key={i}>{text}</li>
+        ))}
+      </ul>
     </div>
   );
 }
