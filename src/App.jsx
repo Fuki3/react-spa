@@ -8,7 +8,7 @@ export default function Text() {
 
   return (
     <div>
-      <input
+      <textarea
         value={text}
         onChange={(e) => {
           setText(e.target.value);
@@ -25,8 +25,8 @@ export default function Text() {
         保存
       </button>
       <ul>
-        {savedText.map((text, i) => (
-          <li key={i}>{text}</li>
+        {savedText.map((text, id) => (
+          <li key={id}>{text}</li>
         ))}
       </ul>
     </div>
