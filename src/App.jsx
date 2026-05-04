@@ -24,11 +24,11 @@ export default function Text() {
       >
         保存
       </button>
-      <ul>
+      <div>
         {savedText.map((text, id) => (
-          <li key={id}>{text}</li>
+          <div key={id}>{text.split(/(\n)/)[0]}</div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
