@@ -1,34 +1,33 @@
 import { useState } from "react";
+import List from "./components/List.jsx";
+import Edit from "./components/Edit.jsx";
 
 export default function Text() {
+  const [mode, setMode] = useState("list");
   const [text, setText] = useState("");
   const [savedText, setSavedText] = useState(() => {
-    return JSON.parse(localStorage.getItem("memo"));
+    return JSON.parse(localStorage.getItem("memo")) || [];
   });
 
   return (
     <div>
-      <textarea
-        value={text}
-        onChange={(e) => {
-          setText(e.target.value);
-        }}
-      />
-
-      <button
-        onClick={() => {
-          const newText = [...savedText, text];
-          localStorage.setItem("memo", JSON.stringify(newText));
-          setSavedText(newText);
-        }}
-      >
-        保存
-      </button>
-      <div>
-        {savedText.map((text, id) => (
-          <div key={id}>{text.split(/(\n)/)[0]}</div>
-        ))}
-      </div>
+      {mode === "list" ? (
+        <>
+          <List savedText={savedText} />
+          <button onClick={() => setMode("edit")}>+</button>
+        </>
+      ) : (
+        <>
+          <Edit
+            text={text}
+            setText={setText}
+            savedText={savedText}
+            setSavedText={setSavedText}
+            setMode={setMode}
+          />
+          <button onClick={() => setMode("list")}>back</button>
+        </>
+      )}
     </div>
   );
 }
