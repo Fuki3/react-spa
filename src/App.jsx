@@ -13,8 +13,15 @@ export default function Text() {
     <div>
       {mode === "list" ? (
         <>
-          <List savedText={savedText} />
-          <button onClick={() => setMode("edit")}>+</button>
+          <List setText={setText} savedText={savedText} setMode={setMode} />
+          <button
+            onClick={() => {
+              setText("");
+              setMode("edit");
+            }}
+          >
+            +
+          </button>
         </>
       ) : (
         <>
