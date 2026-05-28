@@ -8,12 +8,18 @@ export default function Text() {
   const [savedText, setSavedText] = useState(() => {
     return JSON.parse(localStorage.getItem("memo")) || [];
   });
+  const [editingId, setEditingId] = useState(null);
 
   return (
     <div>
       {mode === "list" ? (
         <>
-          <List setText={setText} savedText={savedText} setMode={setMode} />
+          <List
+            setText={setText}
+            savedText={savedText}
+            setEditingId={setEditingId}
+            setMode={setMode}
+          />
           <button
             onClick={() => {
               setText("");
@@ -31,6 +37,8 @@ export default function Text() {
             savedText={savedText}
             setSavedText={setSavedText}
             setMode={setMode}
+            editingId={editingId}
+            setEditingId={setEditingId}
           />
           <button onClick={() => setMode("list")}>back</button>
         </>

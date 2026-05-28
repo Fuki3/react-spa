@@ -1,15 +1,16 @@
-export default function List({ setText, savedText, setMode }) {
+export default function List({ setText, savedText, setEditingId, setMode }) {
   return (
     <div>
-      {savedText.map((text, id) => (
-        <div key={id}>
+      {savedText.map((item) => (
+        <div key={item.id}>
           <button
             onClick={() => {
-              setText(text);
+              setText(item.text);
+              setEditingId(item.id);
               setMode("edit");
             }}
           >
-            {text.split(/(\n)/)[0]}
+            {item.text.split(/(\n)/)[0]}
           </button>
         </div>
       ))}

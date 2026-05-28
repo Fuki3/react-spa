@@ -1,9 +1,11 @@
-export default function List({
+export default function Edit({
   text,
   setText,
   savedText,
   setSavedText,
   setMode,
+  editingId,
+  setEditingId,
 }) {
   return (
     <div>
@@ -13,10 +15,10 @@ export default function List({
           setText(e.target.value);
         }}
       />
-
       <button
         onClick={() => {
-          const newText = [...savedText, text];
+          const newMemo = { id: crypto.randomUUID(), text: text };
+          const newText = [...savedText, newMemo];
           localStorage.setItem("memo", JSON.stringify(newText));
           setSavedText(newText);
           setMode("list");
@@ -24,6 +26,19 @@ export default function List({
         }}
       >
         保存
+      </button>
+
+      <button
+        onClick={() => {
+          const updated = savedText.filter((item) => item.id !== editingId);
+          setSavedText(updated);
+          localStorage.setItem("memo", JSON.stringify(updated));
+          setMode("list");
+          setText("");
+          setEditingId(null);
+        }}
+      >
+        削除
       </button>
     </div>
   );
