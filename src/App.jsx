@@ -4,7 +4,7 @@ import Edit from "./components/Edit.jsx";
 
 export default function App() {
   const [text, setText] = useState("");
-  const [savedText, setSavedText] = useState(() => {
+  const [savedMemo, setSavedMemo] = useState(() => {
     return JSON.parse(localStorage.getItem("memo")) || [];
   });
   const [editingId, setEditingId] = useState(null);
@@ -16,25 +16,39 @@ export default function App() {
     setMode("edit");
   };
 
-  const handleSave = () => {
+  const handleAdd = () => {
     const newMemo = {
       id: crypto.randomUUID(),
+      title: "新規メモ",
       text,
     };
 
-    const newText = [...savedText, newMemo];
+    const newText = [...savedMemo, newMemo];
 
-    setSavedText(newText);
+    setSavedMemo(newText);
     localStorage.setItem("memo", JSON.stringify(newText));
+    setEditingId(newMemo.id);
+    setText("");
+    setMode("edit");
+  };
+
+  const handleSave = () => {
+    const title = text.split("\n")[0];
+
+    const updated = savedMemo.map((memo) =>
+      memo.id === editingId ? { ...memo, text, title } : memo,
+    );
+
+    setSavedMemo(updated);
+    localStorage.setItem("memo", JSON.stringify(updated));
 
     setMode("list");
-    setText("");
   };
 
   const handleDelete = () => {
-    const updated = savedText.filter((memo) => memo.id !== editingId);
+    const updated = savedMemo.filter((memo) => memo.id !== editingId);
 
-    setSavedText(updated);
+    setSavedMemo(updated);
     localStorage.setItem("memo", JSON.stringify(updated));
 
     setMode("list");
@@ -46,15 +60,8 @@ export default function App() {
     <div>
       {mode === "list" ? (
         <>
-          <List savedText={savedText} onSelectMemo={handleSelectMemo} />
-          <button
-            onClick={() => {
-              setText("");
-              setMode("edit");
-            }}
-          >
-            +
-          </button>
+          <List savedMemo={savedMemo} onSelectMemo={handleSelectMemo} />
+          <button onClick={handleAdd}>+</button>
         </>
       ) : (
         <>

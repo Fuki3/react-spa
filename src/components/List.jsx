@@ -1,14 +1,14 @@
-export default function List({ savedText, onSelectMemo }) {
+export default function List({ savedMemo, onSelectMemo }) {
   return (
     <div>
-      {savedText.map((text) => (
-        <div key={text.id}>
+      {savedMemo.map((memo) => (
+        <div key={memo.id}>
           <button
             onClick={() => {
-              onSelectMemo(text);
+              onSelectMemo(memo);
             }}
           >
-            {text.text.split(/(\n)/)[0]}
+            {memo.title}
           </button>
         </div>
       ))}
