@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 import List from "./components/List.jsx";
 import Edit from "./components/Edit.jsx";
 
@@ -57,23 +58,30 @@ export default function App() {
   };
 
   return (
-    <div>
-      {mode === "list" ? (
-        <>
-          <List savedMemo={savedMemo} onSelectMemo={handleSelectMemo} />
-          <button onClick={handleAdd}>+</button>
-        </>
-      ) : (
-        <>
-          <Edit
-            text={text}
-            setText={setText}
-            onSave={handleSave}
-            onDelete={handleDelete}
+    <>
+      <p className="page-title">{mode === "list" ? "一覧" : "編集"}</p>
+      <div className="container">
+        <div>
+          <List
+            savedMemo={savedMemo}
+            editingId={editingId}
+            onSelectMemo={handleSelectMemo}
           />
-          <button onClick={() => setMode("list")}>back</button>
-        </>
-      )}
-    </div>
+          <button className="add-button" onClick={handleAdd}>
+            +
+          </button>
+        </div>
+        {mode === "edit" && (
+          <>
+            <Edit
+              text={text}
+              setText={setText}
+              onSave={handleSave}
+              onDelete={handleDelete}
+            />
+          </>
+        )}
+      </div>
+    </>
   );
 }

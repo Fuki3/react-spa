@@ -1,3 +1,5 @@
+import "../App.css";
+
 export default function Edit({ text, setText, onSave, onDelete }) {
   return (
     <div>
@@ -7,9 +9,10 @@ export default function Edit({ text, setText, onSave, onDelete }) {
           setText(e.target.value);
         }}
       />
-      <button onClick={onSave}>保存</button>
-
-      <button onClick={onDelete}>削除</button>
+      <div className="button-group">
+        <button onClick={onSave}>更新</button>
+        <button onClick={onDelete}>削除</button>
+      </div>
     </div>
   );
 }
