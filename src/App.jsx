@@ -44,6 +44,8 @@ export default function App() {
     localStorage.setItem("memo", JSON.stringify(updated));
 
     setMode("list");
+
+    setEditingId(null);
   };
 
   const handleDelete = () => {
