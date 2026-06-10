@@ -1,5 +1,3 @@
-import "../App.css";
-
 export default function Edit({ text, setText, onSave, onDelete }) {
   return (
     <div>
