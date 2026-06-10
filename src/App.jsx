@@ -21,7 +21,7 @@ export default function App() {
     const newMemo = {
       id: crypto.randomUUID(),
       title: "新規メモ",
-      text,
+      text: "",
     };
 
     const newText = [...savedMemo, newMemo];
