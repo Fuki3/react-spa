@@ -18,33 +18,23 @@ export default function App() {
   };
 
   const handleAdd = () => {
-    const newMemo = {
-      id: crypto.randomUUID(),
-      title: "新規メモ",
-      text: "",
-    };
-
-    const newText = [...savedMemo, newMemo];
-
-    setSavedMemo(newText);
-    localStorage.setItem("memo", JSON.stringify(newText));
-    setEditingId(newMemo.id);
+    setEditingId(crypto.randomUUID());
     setText("");
     setMode("edit");
   };
 
   const handleSave = () => {
-    const title = text.split("\n")[0];
+    const title = text.split("\n")[0] || "新規メモ";
 
-    const updated = savedMemo.map((memo) =>
-      memo.id === editingId ? { ...memo, text, title } : memo,
-    );
+    const updated = [
+      ...savedMemo.filter((memo) => memo.id !== editingId),
+      { id: editingId, text, title },
+    ];
 
     setSavedMemo(updated);
     localStorage.setItem("memo", JSON.stringify(updated));
 
     setMode("list");
-
     setEditingId(null);
   };
 
