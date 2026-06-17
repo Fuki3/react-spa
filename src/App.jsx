@@ -24,7 +24,13 @@ export default function App() {
   };
 
   const handleSave = () => {
-    const title = text.split("\n")[0] || "新規メモ";
+    const firstLine = text.split("\n")[0];
+    const title = firstLine || "新規メモ";
+
+    if (firstLine.trim() === "") {
+      alert("本文を一行目から入力してください");
+      return;
+    }
 
     const updated = [
       ...savedMemo.filter((memo) => memo.id !== editingId),
