@@ -1,122 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import List from "./components/List.jsx";
+import Edit from "./components/Edit.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [text, setText] = useState("");
+  const [savedMemo, setSavedMemo] = useState(() => {
+    return JSON.parse(localStorage.getItem("memo")) || [];
+  });
+  const [editingId, setEditingId] = useState(null);
+  const [mode, setMode] = useState("list");
+
+  const handleSelectMemo = (memo) => {
+    setText(memo.text);
+    setEditingId(memo.id);
+    setMode("edit");
+  };
+
+  const handleAdd = () => {
+    setEditingId(crypto.randomUUID());
+    setText("");
+    setMode("edit");
+  };
+
+  const handleSave = () => {
+    const firstLine = text.split("\n")[0];
+    const title = firstLine || "新規メモ";
+
+    if (firstLine.trim() === "") {
+      alert("本文を一行目から入力してください");
+      return;
+    }
+
+    const updated = [
+      ...savedMemo.filter((memo) => memo.id !== editingId),
+      { id: editingId, text, title },
+    ];
+
+    setSavedMemo(updated);
+    localStorage.setItem("memo", JSON.stringify(updated));
+
+    setMode("list");
+    setEditingId(null);
+  };
+
+  const handleDelete = () => {
+    const updated = savedMemo.filter((memo) => memo.id !== editingId);
+
+    setSavedMemo(updated);
+    localStorage.setItem("memo", JSON.stringify(updated));
+
+    setMode("list");
+    setText("");
+    setEditingId(null);
+  };
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+      <p className="page-title">{mode === "list" ? "一覧" : "編集"}</p>
+      <div className="container">
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <List
+            savedMemo={savedMemo}
+            editingId={editingId}
+            onSelectMemo={handleSelectMemo}
+          />
+          <button className="add-button" onClick={handleAdd}>
+            +
+          </button>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        {mode === "edit" && (
+          <>
+            <Edit
+              text={text}
+              setText={setText}
+              onSave={handleSave}
+              onDelete={handleDelete}
+            />
+          </>
+        )}
+      </div>
     </>
-  )
+  );
 }
-
-export default App
