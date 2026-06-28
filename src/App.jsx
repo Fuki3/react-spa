@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./App.css";
 import List from "./components/List.jsx";
 import Edit from "./components/Edit.jsx";
+import { LoginContext } from "./contexts/LoginContext.jsx";
 
 export default function App() {
   const [text, setText] = useState("");
@@ -10,6 +11,7 @@ export default function App() {
   });
   const [editingId, setEditingId] = useState(null);
   const [mode, setMode] = useState("list");
+  const { login, setLogin } = useContext(LoginContext);
 
   const handleSelectMemo = (memo) => {
     setText(memo.text);
@@ -57,6 +59,11 @@ export default function App() {
 
   return (
     <>
+      {login ? (
+        <button onClick={() => setLogin(false)}>ログアウト</button>
+      ) : (
+        <button onClick={() => setLogin(true)}>ログイン</button>
+      )}
       <p className="page-title">{mode === "list" ? "一覧" : "編集"}</p>
       <div className="container">
         <div>
@@ -65,9 +72,11 @@ export default function App() {
             editingId={editingId}
             onSelectMemo={handleSelectMemo}
           />
-          <button className="add-button" onClick={handleAdd}>
-            +
-          </button>
+          {login && (
+            <button className="add-button" onClick={handleAdd}>
+              +
+            </button>
+          )}
         </div>
         {mode === "edit" && (
           <>
