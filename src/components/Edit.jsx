@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext.jsx";
+
 export default function Edit({ text, setText, onSave, onDelete }) {
+  const { login } = useContext(LoginContext);
   return (
     <div>
       <textarea
@@ -7,10 +11,12 @@ export default function Edit({ text, setText, onSave, onDelete }) {
           setText(e.target.value);
         }}
       />
-      <div className="button-group">
-        <button onClick={onSave}>更新</button>
-        <button onClick={onDelete}>削除</button>
-      </div>
+      {login === true && (
+        <div className="button-group">
+          <button onClick={onSave}>更新</button>
+          <button onClick={onDelete}>削除</button>
+        </div>
+      )}
     </div>
   );
 }
