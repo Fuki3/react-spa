@@ -59,35 +59,41 @@ export default function App() {
 
   return (
     <>
-      {login ? (
-        <button onClick={() => setLogin(false)}>ログアウト</button>
-      ) : (
-        <button onClick={() => setLogin(true)}>ログイン</button>
-      )}
       <p className="page-title">{mode === "list" ? "一覧" : "編集"}</p>
       <div className="container">
-        <div>
-          <List
-            savedMemo={savedMemo}
-            editingId={editingId}
-            onSelectMemo={handleSelectMemo}
-          />
-          {login && (
-            <button className="add-button" onClick={handleAdd}>
-              +
+        <div className="header">
+          {login ? (
+            <button className="login-button" onClick={() => setLogin(false)}>
+              ログアウト
             </button>
+          ) : (
+            <button onClick={() => setLogin(true)}>ログイン</button>
           )}
         </div>
-        {mode === "edit" && (
-          <>
-            <Edit
-              text={text}
-              setText={setText}
-              onSave={handleSave}
-              onDelete={handleDelete}
+        <div className="body">
+          <div>
+            <List
+              savedMemo={savedMemo}
+              editingId={editingId}
+              onSelectMemo={handleSelectMemo}
             />
-          </>
-        )}
+            {login && (
+              <button className="add-button" onClick={handleAdd}>
+                +
+              </button>
+            )}
+          </div>
+          {mode === "edit" && (
+            <>
+              <Edit
+                text={text}
+                setText={setText}
+                onSave={handleSave}
+                onDelete={handleDelete}
+              />
+            </>
+          )}
+        </div>
       </div>
     </>
   );
