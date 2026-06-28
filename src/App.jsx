@@ -59,7 +59,7 @@ export default function App() {
 
   return (
     <>
-      <p className="page-title">{mode === "list" ? "一覧" : "編集"}</p>
+      <p className="login-state">{login ? "ログイン済み" : "未ログイン"}</p>
       <div className="container">
         <div className="header">
           {login ? (
