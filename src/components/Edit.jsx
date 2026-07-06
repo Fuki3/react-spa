@@ -11,7 +11,7 @@ export default function Edit({ text, setText, onSave, onDelete }) {
           setText(e.target.value);
         }}
       />
-      {login === true && (
+      {login && (
         <div className="button-group">
           <button onClick={onSave}>更新</button>
           <button onClick={onDelete}>削除</button>
