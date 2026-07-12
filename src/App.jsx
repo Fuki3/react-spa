@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import List from "./components/List.jsx";
 import Edit from "./components/Edit.jsx";
-import { LoginContext } from "./contexts/LoginContext.jsx";
+import { UseLogin } from "./providers/LoginProvider.jsx";
 
 export default function App() {
   const [text, setText] = useState("");
@@ -11,7 +11,7 @@ export default function App() {
   });
   const [editingId, setEditingId] = useState(null);
   const [mode, setMode] = useState("list");
-  const { login, setLogin } = useContext(LoginContext);
+  const { login, setLogin } = UseLogin();
 
   const handleSelectMemo = (memo) => {
     setText(memo.text);

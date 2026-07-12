@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { LoginContext } from "../contexts/LoginContext.jsx";
+import { UseLogin } from "../providers/LoginProvider.jsx";
 
 export default function Edit({ text, setText, onSave, onDelete }) {
-  const { login } = useContext(LoginContext);
+  const { login } = UseLogin();
   return (
     <div>
       <textarea
