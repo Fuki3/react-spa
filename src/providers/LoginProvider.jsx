@@ -14,6 +14,6 @@ export function LoginProvider({ children }) {
   );
 }
 
-export function UseLogin() {
+export function useLogin() {
   return useContext(LoginContext);
 }

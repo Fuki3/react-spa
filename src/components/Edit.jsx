@@ -1,7 +1,7 @@
-import { UseLogin } from "../providers/LoginProvider.jsx";
+import { useLogin } from "../providers/LoginProvider.jsx";
 
 export default function Edit({ text, setText, onSave, onDelete }) {
-  const { isLogin } = UseLogin();
+  const { isLogin } = useLogin();
   return (
     <div>
       <textarea
