@@ -11,7 +11,7 @@ export default function App() {
   });
   const [editingId, setEditingId] = useState(null);
   const [mode, setMode] = useState("list");
-  const { login, setLogin } = UseLogin();
+  const { isLogin, login, logout } = UseLogin();
 
   const handleSelectMemo = (memo) => {
     setText(memo.text);
@@ -59,15 +59,15 @@ export default function App() {
 
   return (
     <>
-      <p className="login-state">{login ? "ログイン済み" : "未ログイン"}</p>
+      <p className="login-state">{isLogin ? "ログイン済み" : "未ログイン"}</p>
       <div className="container">
         <div className="header">
-          {login ? (
-            <button className="login-button" onClick={() => setLogin(false)}>
+          {isLogin ? (
+            <button className="login-button" onClick={() => logout()}>
               ログアウト
             </button>
           ) : (
-            <button onClick={() => setLogin(true)}>ログイン</button>
+            <button onClick={() => login()}>ログイン</button>
           )}
         </div>
         <div className="body">
@@ -77,7 +77,7 @@ export default function App() {
               editingId={editingId}
               onSelectMemo={handleSelectMemo}
             />
-            {login && (
+            {isLogin && (
               <button className="add-button" onClick={handleAdd}>
                 +
               </button>

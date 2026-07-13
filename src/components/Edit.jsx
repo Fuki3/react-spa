@@ -1,7 +1,7 @@
 import { UseLogin } from "../providers/LoginProvider.jsx";
 
 export default function Edit({ text, setText, onSave, onDelete }) {
-  const { login } = UseLogin();
+  const { isLogin } = UseLogin();
   return (
     <div>
       <textarea
@@ -10,7 +10,7 @@ export default function Edit({ text, setText, onSave, onDelete }) {
           setText(e.target.value);
         }}
       />
-      {login && (
+      {isLogin && (
         <div className="button-group">
           <button onClick={onSave}>更新</button>
           <button onClick={onDelete}>削除</button>
