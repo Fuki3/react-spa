@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import List from "./components/List.jsx";
 import Edit from "./components/Edit.jsx";
-import { useLogin } from "./providers/LoginProvider.jsx";
+import { useLogin } from "./components/Login.jsx";
 
 export default function App() {
   const [text, setText] = useState("");

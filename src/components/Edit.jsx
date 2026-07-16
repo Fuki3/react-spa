@@ -1,4 +1,4 @@
-import { useLogin } from "../providers/LoginProvider.jsx";
+import { useLogin } from "./Login.jsx";
 
 export default function Edit({ text, setText, onSave, onDelete }) {
   const { isLogin } = useLogin();

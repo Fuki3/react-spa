@@ -1,7 +1,5 @@
-import { useContext, useState } from "react";
-import { createContext } from "react";
-
-const LoginContext = createContext(false);
+import { useState } from "react";
+import { LoginContext } from "../components/Login.jsx";
 
 export function LoginProvider({ children }) {
   const [isLogin, setLogin] = useState(false);
@@ -12,8 +10,4 @@ export function LoginProvider({ children }) {
   return (
     <LoginContext value={{ isLogin, login, logout }}>{children}</LoginContext>
   );
-}
-
-export function useLogin() {
-  return useContext(LoginContext);
 }
