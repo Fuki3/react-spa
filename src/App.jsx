@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import List from "./components/List.jsx";
 import Edit from "./components/Edit.jsx";
+import { useLogin } from "./components/Login.jsx";
 
 export default function App() {
   const [text, setText] = useState("");
@@ -10,6 +11,7 @@ export default function App() {
   });
   const [editingId, setEditingId] = useState(null);
   const [mode, setMode] = useState("list");
+  const { isLogin, login, logout } = useLogin();
 
   const handleSelectMemo = (memo) => {
     setText(memo.text);
@@ -57,28 +59,41 @@ export default function App() {
 
   return (
     <>
-      <p className="page-title">{mode === "list" ? "一覧" : "編集"}</p>
+      <p className="login-state">{isLogin ? "ログイン済み" : "未ログイン"}</p>
       <div className="container">
-        <div>
-          <List
-            savedMemo={savedMemo}
-            editingId={editingId}
-            onSelectMemo={handleSelectMemo}
-          />
-          <button className="add-button" onClick={handleAdd}>
-            +
-          </button>
+        <div className="header">
+          {isLogin ? (
+            <button className="login-button" onClick={() => logout()}>
+              ログアウト
+            </button>
+          ) : (
+            <button onClick={() => login()}>ログイン</button>
+          )}
         </div>
-        {mode === "edit" && (
-          <>
-            <Edit
-              text={text}
-              setText={setText}
-              onSave={handleSave}
-              onDelete={handleDelete}
+        <div className="body">
+          <div>
+            <List
+              savedMemo={savedMemo}
+              editingId={editingId}
+              onSelectMemo={handleSelectMemo}
             />
-          </>
-        )}
+            {isLogin && (
+              <button className="add-button" onClick={handleAdd}>
+                +
+              </button>
+            )}
+          </div>
+          {mode === "edit" && (
+            <>
+              <Edit
+                text={text}
+                setText={setText}
+                onSave={handleSave}
+                onDelete={handleDelete}
+              />
+            </>
+          )}
+        </div>
       </div>
     </>
   );
